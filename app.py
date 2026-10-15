@@ -1,8 +1,3 @@
-TruthCheck-LLM — Streamlit demo app.
-
-Run locally:   streamlit run app.py
-Deploy:        see README.md (Streamlit Community Cloud / Docker)
-"""
 import os
 
 import io
