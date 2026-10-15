@@ -12,7 +12,7 @@ def load_dataset(uploaded):
     raw = uploaded.getvalue()
 #@@ -43,21 +48,123 @@
     "Unsupported file type. Upload a CSV or Excel file."
-            )
+)
 
 st.set_page_config(page_title="TruthCheck-LLM", page_icon="✅", layout="wide")
         if df.empty:
