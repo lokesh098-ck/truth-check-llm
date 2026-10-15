@@ -1,4 +1,3 @@
-"""
 TruthCheck-LLM — Streamlit demo app.
 
 Run locally:   streamlit run app.py
@@ -16,35 +15,7 @@ from truthcheck.verifier_rules import SUPPORTED, PARTIAL, HALLUCINATED, UNVERIFI
 def load_dataset(uploaded):
     filename = uploaded.name.lower()
     raw = uploaded.getvalue()
-
-    try:
-        if filename.endswith((".xlsx", ".xls")):
-            df = pd.read_excel(io.BytesIO(raw))
-
-        elif filename.endswith(".csv"):
-            errors = []
-
-            for encoding in ("utf-8-sig", "cp1252", "latin1"):
-                try:
-                    df = pd.read_csv(
-                        io.BytesIO(raw),
-                        sep=None,
-                        engine="python",
-                        encoding=encoding
-                    )
-                    break
-                except (pd.errors.ParserError,
-                        UnicodeDecodeError,
-                        ValueError) as e:
-                    errors.append(str(e))
-            else:
-                raise ValueError(
-                    "Could not parse this CSV. Check its "
-                    "delimiter, column headers, and row structure."
-                )
-
-        else:
-            raise ValueError(
+@@ -43,21 +48,123 @@
                 "Unsupported file type. Upload a CSV or Excel file."
             )
 
@@ -80,7 +51,7 @@ with st.sidebar:
     check_qualitative = st.checkbox("Also check qualitative/causal claims (uses more API calls)", value=False)
 
 if use_sample:
-    df = pd.read_csv(os.path.join(os.path.dirname(__file__), "data", "sample_sales.csv"))
+    df = pd.read_csv(os.path.join(os.path.dirname(_file_), "data", "sample_sales.csv"))
     st.sidebar.info("Using bundled sample_sales.csv (Region, Sales, MarketingSpend, Quarter).")
 elif uploaded is not None:
     df = pd.read_excel(uploaded) if uploaded.name.lower().endswith(("xlsx", "xls")) else pd.read_csv(uploaded)
@@ -119,8 +90,7 @@ with tab_paste:
         narrative = pasted
 
 narrative = narrative or st.session_state.get("narrative", "")
-
-if narrative:
+[12:59 PM, 10/15/2026] Lokesh R: if narrative:
     st.text_area("Narrative being checked", narrative, height=120, disabled=True)
 
     if st.button("🔍 Verify this narrative", type="primary"):
@@ -168,7 +138,7 @@ st.caption(
         return df
 
     except Exception as e:
-        st.error(f"Could not load dataset: {e}")
+    st.error(f"Could not load dataset: {e}")
         return None
 
 
@@ -186,3 +156,4 @@ if uploaded is not None:
             f"{len(df.columns)} columns."
         )
         st.dataframe(df.head(10))
+    st.text_area("Narrative being checked", narrative, height=120, disabled=True)
